@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SkillGap - Skill Grab & Employment Predictor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <nav class="nav">
+    <span class="logo"><span class="bars"><i></i><i></i><i></i></span>SkillGap</span>
+    <div id="navGuest">
+      <button class="btn-light" data-view="login">Log in</button>
+      <button data-view="signup">Sign up</button>
+    </div>
+    <div id="userBar" class="hidden">
+      <span id="userName"></span>
+      <button id="logoutBtn">Log out</button>
+    </div>
+  </nav>
+
+  <!-- LOGIN / SIGN UP / FORGOT PASSWORD (shown first) -->
+  <main id="authMain" class="hero">
+    <div class="hero-left">
+      <p class="pill"><i></i>Skill gap + employment predictor</p>
+      <h1><span class="ink">Skill</span><span class="red">Gap</span></h1>
+      <div class="stats">
+        <div class="stat"><b id="statSkills">89</b><small>Skills</small></div>
+        <div class="stat"><b id="statJobs">47</b><small>Jobs</small></div>
+        <div class="stat"><b>1</b><small>PDF report</small></div>
+      </div>
+      <p class="lead">Add your skills and levels. See which jobs fit you, what you're missing, and how to learn it.</p>
+    </div>
+
+    <div class="badge-wrap">
+      <div class="mint-circle"></div>
+      <div class="badge">
+        <div class="lanyard"></div>
+        <div class="badge-top"><span>SKILLGAP</span><span id="badgeMode">LOG IN</span></div>
+        <p class="badge-hello">Hello, I'm a</p>
+        <h2 id="badgeTitle">Builder</h2>
+
+        <!-- LOG IN -->
+        <form id="viewLogin">
+          <input id="loginEmail" type="email" placeholder="Email" autocomplete="email">
+          <div class="pw">
+            <input id="loginPassword" type="password" placeholder="Password" autocomplete="current-password">
+            <button type="button" class="linkbtn" data-toggle="loginPassword">Show</button>
+          </div>
+          <div class="row-end"><button type="button" class="linkbtn" data-view="forgot">Forgot password?</button></div>
+          <p id="loginMsg" class="msg"></p>
+          <button type="submit">Log in →</button>
+          <p class="swap">New here? <button type="button" class="linkbtn" data-view="signup">Sign up</button></p>
+        </form>
+
+        <!-- SIGN UP -->
+        <form id="viewSignup" class="hidden">
+          <input id="signupName" type="text" placeholder="Your name" autocomplete="name">
+          <input id="signupEmail" type="email" placeholder="Email" autocomplete="email">
+          <div class="pw">
+            <input id="signupPassword" type="password" placeholder="Password (min 6 characters)" autocomplete="new-password">
+            <button type="button" class="linkbtn" data-toggle="signupPassword">Show</button>
+          </div>
+          <input id="signupConfirm" type="password" placeholder="Confirm password" autocomplete="new-password">
+          <div id="verifyBox" class="hidden">
+            <input id="signupCode" type="text" inputmode="numeric" placeholder="6-digit code from your email" autocomplete="one-time-code">
+          </div>
+          <p id="signupMsg" class="msg"></p>
+          <button type="submit" id="signupSubmit">Create account →</button>
+          <p class="swap">Already have an account? <button type="button" class="linkbtn" data-view="login">Log in</button></p>
+        </form>
+
+        <!-- FORGOT PASSWORD -->
+        <div id="viewForgot" class="hidden">
+          <form id="forgotForm">
+            <input id="forgotEmail" type="email" placeholder="Your account email" autocomplete="email">
+            <p id="forgotMsg" class="msg"></p>
+            <button type="submit">Send reset code →</button>
+          </form>
+          <form id="resetForm" class="hidden">
+            <div id="codeBox" class="codebox hidden"></div>
+            <input id="resetCodeInput" type="text" inputmode="numeric" placeholder="6-digit reset code" autocomplete="one-time-code">
+            <div class="pw">
+              <input id="newPassword" type="password" placeholder="New password (min 6 characters)" autocomplete="new-password">
+              <button type="button" class="linkbtn" data-toggle="newPassword">Show</button>
+            </div>
+            <p id="resetMsg" class="msg"></p>
+            <button type="submit">Reset password →</button>
+          </form>
+          <p class="swap"><button type="button" class="linkbtn" data-view="login">← Back to log in</button></p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- MOVING RIBBON -->
+  <div class="ribbon">
+    <div class="ribbon-track">
+      <span>Pick your skills</span><b>★</b><span>Find your job</span><b>★</b><span>Close the gap</span><b>★</b><span>Official docs</span><b>★</b><span>PDF report</span><b>★</b>
+      <span>Pick your skills</span><b>★</b><span>Find your job</span><b>★</b><span>Close the gap</span><b>★</b><span>Official docs</span><b>★</b><span>PDF report</span><b>★</b>
+    </div>
+  </div>
+
+  <!-- THE APP (hidden until you log in) -->
+  <main id="app" class="hidden">
+
+    <section class="band light">
+      <div class="wrap">
+        <h2 class="display"><span class="red">1</span> Your skills.</h2>
+        <div class="card">
+          <div class="row">
+            <div class="combo">
+              <input id="skillInput" placeholder="Type any skill, e.g. Python" autocomplete="off">
+              <ul id="suggestions" class="combo-list hidden"></ul>
+            </div>
+            <select id="levelSelect">
+              <option value="1">Beginner</option>
+              <option value="2">Intermediate</option>
+              <option value="3">Advanced</option>
+            </select>
+            <button id="addBtn">Add</button>
+          </div>
+          <p class="hint">Not in the suggestions? Just type it and press Add. You can change a level any time.</p>
+          <ul id="skillList"></ul>
+        </div>
+        <p id="emptyMsg" class="muted">Add at least one skill to see your results.</p>
+      </div>
+    </section>
+
+    <section id="results" class="hidden">
+      <div class="band light">
+        <div class="wrap">
+          <h2 class="display"><span class="red">2</span> Your best match.</h2>
+          <div id="jobCard" class="card"></div>
+        </div>
+      </div>
+
+      <div class="band lav">
+        <div class="wrap">
+          <h2 class="display">Other careers<br>that fit you.</h2>
+          <div id="otherJobs" class="chips"></div>
+        </div>
+      </div>
+
+      <div class="band dark">
+        <div class="wrap">
+          <h2 class="display">Your roadmap.</h2>
+          <div id="roadmap"></div>
+        </div>
+      </div>
+
+      <div class="band light">
+        <div class="wrap">
+          <h2 class="display">Skill insights.</h2>
+          <div id="insights"></div>
+          <button id="downloadBtn">Download PDF report</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Scores come from a simple matching formula, not a guarantee. Salaries are approximate medians for India (LPA).
+  </footer>
+
+  <!-- PDF libraries (need internet once to load) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+  <script src="config.js"></script>
+  <script src="auth.js"></script>
+</body>
+</html>
